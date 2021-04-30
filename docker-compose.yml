@@ -1,0 +1,10 @@
+version: '3'
+services:
+    user-server:
+        container_name: api-gateway-server
+        build: .
+        ports:
+            - 4011:4011
+        environment:
+            - PORT=4011
+            - NODE_ENV=development

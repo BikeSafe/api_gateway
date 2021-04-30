@@ -1,0 +1,30 @@
+type RealtimeCRSProperty {
+  name: String
+}
+
+type RealtimeCRS {
+  type: String
+  properties: RealtimeCRSProperty
+}
+
+type RealtimeLocation {
+  coordinates: [Float]
+  crs: RealtimeCRS
+  type: String
+}
+
+type RealtimeInterestPoint {
+  event_type: Int
+  id: Int
+  location: RealtimeLocation
+}
+
+type Query {
+  "Returns all interest points near to a specific point"
+  getRealtimeInterestPoints(id: Int!, radius: Float!): [RealtimeInterestPoint]
+}
+
+type Mutation {
+  "Creates an interest point"
+  createRealtimeInterestPoint(type: Int!, lng: Float!, lat: Float!): RealtimeInterestPoint
+}
