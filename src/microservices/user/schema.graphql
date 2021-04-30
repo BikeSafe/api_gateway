@@ -1,0 +1,71 @@
+type UserOauth {
+  access_token: String
+  token_type: String
+  refresh_token: String
+  expires_in: Int
+  scope: String
+  jti: String
+}
+type User {
+  id: Int
+  username: String
+  password: String
+  enabled: Boolean
+}
+
+type UserData {
+  id_dato: Int
+  cedula_dato: Int
+  telefono_dato: Int
+  nombre_dato: String
+  apellido_dato: String
+  email_dato: String
+  usuario: User
+}
+
+type UserFollower {
+  id: Int
+  seguidor: UserData
+  seguido: UserData
+}
+
+type Query {
+  getAllUsers(token: String): [User]
+  getUserById(token: String, id: Int): User
+  getAllUserData(token: String): [UserData]
+  getUserDataById(token: String, id: Int): UserData
+  getAllFollowersByUser(token: String, id: Int): [UserFollower]
+  getAllFollowedByUser(token: String, id: Int): [UserFollower]
+}
+
+input UserOauthInput {
+  username: String
+  password: String
+  grant_type: String
+}
+
+input UserInput {
+  id: Int
+  username: String
+  password: String
+  enabled: Boolean
+}
+
+input UserDataInput {
+  id_dato: Int
+  cedula_dato: Int
+  telefono_dato: Int
+  nombre_dato: String
+  apellido_dato: String
+  email_dato: String
+  usuario: UserInput
+}
+
+type Mutation {
+  generateUserToken(token: String, data: UserOauthInput): UserOauth
+  createUser(token: String, data: UserInput): User
+  deleteUser(token: String, id: Int): User
+  createUserData(token: String, data: UserDataInput): UserData
+  updateUserData(token: String, id: Int, data: UserDataInput): UserData
+  setFollower(token: String, id: Int, id2: Int): UserFollower
+}
