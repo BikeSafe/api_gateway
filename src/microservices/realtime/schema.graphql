@@ -21,7 +21,7 @@ type RealtimeInterestPoint {
 
 type Query {
   "Returns all interest points near to a specific point"
-  getRealtimeInterestPoints(id: Int!, radius: Float!): [RealtimeInterestPoint]
+  getRealtimeInterestPoints(lat: Float!, lng: Float!, radius: Float!): [RealtimeInterestPoint]
 }
 
 type Mutation {
