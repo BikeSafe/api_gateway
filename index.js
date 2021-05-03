@@ -13,6 +13,7 @@ const RealtimeSquema = require('./src/microservices/realtime');
 const TransportSquema = require('./src/microservices/transport');
 const JoinRoutesSquema = require('./src/microservices/joint-routes');
 const UserSquema = require('./src/microservices/user');
+const SocialSquema = require('./src/microservices/social');
 
 const schema = stitchSchemas({
   subschemas: [
@@ -20,6 +21,7 @@ const schema = stitchSchemas({
     { schema: TransportSquema, batch: true },
     { schema: JoinRoutesSquema, batch: true },
     { schema: UserSquema, batch: true },
+    { schema: SocialSquema, batch: true },
   ],
 });
 
