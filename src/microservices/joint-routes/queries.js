@@ -14,8 +14,8 @@ module.exports = {
     return await HttpProvider.get(`${baseUrl}/user`, data);
   },
   // Route
-  getRouteById: async (root, { routeId }) => {
-    return await HttpProvider.get(`${baseUrl}/route/${routeId}`);
+  getRouteById: async (root, {data}) => {
+    return await HttpProvider.get(`${baseUrl}/route`, data);
   },
   getPublicRoutes: async () => {
     return await HttpProvider.get(`${baseUrl}/route/public`);

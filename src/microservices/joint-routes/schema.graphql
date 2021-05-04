@@ -13,13 +13,13 @@ type RouteUserId {
 type RouteUser {
   name: String
   id2: Int
-  _id: RouteUserId
+  userId: RouteUserId
 }
 
 type RouteCoordinate {
   lat: Float
   lng: Float
-  _id: RouteCoordinateId
+  coordinateId: RouteCoordinateId
 }
 
 type Route {
@@ -29,12 +29,16 @@ type Route {
   done: Boolean
   startLocationId: RouteCoordinateId
   endLocationId: RouteCoordinateId
-  creatorId2: RouteUserId
-  memberId2s: [RouteUserId]
-  _id: RouteId
+  creatorId2: Int
+  memberId2s: [Int]
+  routeId: RouteId
 }
 
 # Coordinate
+
+input RouteCoordinateIdInput {
+  oid: String
+}
 
 input RouteCoordinateInput {
   lat: Float
@@ -44,11 +48,7 @@ input RouteCoordinateInput {
 input RouteCoordinateUpdateInput {
   lat: Float
   lng: Float
-  coordinateId: RouteCoordinateId
-}
-
-input RouteCoordinateIdInput {
-  coordinateId: RouteCoordinateId
+  coordinateId: RouteCoordinateIdInput
 }
 
 # User
@@ -59,27 +59,31 @@ input RouteUserInput {
 }
 
 input RouteUserIdInput {
-  id2: RouteUserId
+  id2: Int
 }
 
 # Route
 
+input RouteIdInput {
+  oid: String
+}
+
 input RouteInput {
   name: String
   public: Boolean
-  startLocationId: RouteCoordinateId
-  endLocationId: RouteCoordinateId
-  creatorId2: RouteUserId
+  startLocationId: RouteCoordinateIdInput
+  endLocationId: RouteCoordinateIdInput
+  creatorId2: Int
 }
 
 input RouteQualifyInput {
   rating: Float
-  routeId: RouteId
+  routeId: RouteIdInput
 }
 
 input RouteMemberInput {
-  id2: RouteUserId
-  routeId: RouteId
+  id2: Int
+  routeId: RouteIdInput
 }
 
 type Query {
@@ -88,7 +92,7 @@ type Query {
   # User
   getUserById(data: RouteUserIdInput): RouteUser
   # Route
-  getRouteById(routeId: RouteId): Route
+  getRouteById(data: RouteIdInput): Route
   getPublicRoutes: [Route]
 }
 
@@ -106,5 +110,5 @@ type Mutation {
   qualifyRoute(data: RouteQualifyInput): Boolean
   addMemberRoute(data: RouteMemberInput): Boolean
   deleteMemberRoute(data: RouteMemberInput): Boolean
-  deleteRoute(routeId: RouteId): Boolean
+  deleteRoute(data: RouteUserIdInput): Boolean
 }

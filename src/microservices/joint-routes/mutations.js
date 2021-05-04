@@ -36,9 +36,9 @@ module.exports = {
     return await HttpProvider.put(`${baseUrl}/route`, data);
   },
   deleteMemberRoute: async (root, {data}) => {
-    return await HttpProvider.deleted(`${baseUrl}/route`, data);
+    return await HttpProvider.put(`${baseUrl}/route`, data);
   },
-  deleteRoute: async (root, { routeId }) => {
-    return await HttpProvider.deleted(`${baseUrl}/route/${routeId}`);
+  deleteRoute: async (root, {data}) => {
+    return await HttpProvider.deleted(`${baseUrl}/route`, data);
   },
 };
