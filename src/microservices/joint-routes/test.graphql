@@ -94,7 +94,7 @@ type Query {
 
 type Mutation {
   # Coordinate
-  createCoordinate(data: RouteCoordinateInput): RouteCoordinate
+  createCoordinate(data: RouteCoordinateInput): Coordinate
   updateCoordinate(data: RouteCoordinateIdInput): Boolean
   deleteCoordinateById(data: RouteCoordinateIdInput): Boolean
   # User
@@ -107,4 +107,86 @@ type Mutation {
   addMemberRoute(data: RouteMemberInput): Boolean
   deleteMemberRoute(data: RouteMemberInput): Boolean
   deleteRoute(routeId: RouteId): Boolean
+}
+
+
+##############
+
+
+type JoinRouteId {
+  oid: String
+}
+
+type JoinRouteMember {
+  id2: Int
+  name: String
+  _id: JoinRouteId
+}
+
+type JoinRouteCreator {
+  id2: Int
+  name: String
+  _id: JoinRouteId
+}
+
+type JoinRouteChatMessage {
+  content: String
+  creator: JoinRouteCreator
+  _id: JoinRouteId
+}
+
+type JoinRouteChat {
+  name: String
+  message: [JoinRouteChatMessage]
+  _id: JoinRouteId
+}
+
+type JoinRoute {
+  calification: Int
+  latitude: Float
+  longitude: Float
+  members: [JoinRouteMember]
+  creator: JoinRouteCreator
+  chat: JoinRouteChat
+  _id: JoinRouteId
+}
+
+type Query {
+  getAllJoinRoutes: [JoinRoute]
+  getJoinRouteById(id: Int!): JoinRoute
+}
+
+input JoinRouteCreatorInput {
+  name: String
+  id2: Int
+}
+
+input JoinRouteChatMessageInput {
+  content: String
+  creator: JoinRouteCreatorInput
+}
+
+input JoinRouteChatInput {
+  name: String
+  message: [JoinRouteChatMessageInput]
+}
+
+input JoinRouteMembersInput {
+  name: String
+  id2: Int
+}
+
+input JoinRouteInput {
+  calification: Int
+  latitude: Float
+  longitude: Float
+  chat: JoinRouteChatInput
+  members: [JoinRouteMembersInput]
+  creator: JoinRouteCreatorInput
+}
+
+type Mutation {
+  createJoinRoute(data: JoinRouteInput): JoinRoute
+  updateJoinRoute(id: Int, data: JoinRouteInput): JoinRoute
+  deleteJoinRoute(id: Int): Boolean
 }
