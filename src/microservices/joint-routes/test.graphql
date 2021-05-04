@@ -1,0 +1,192 @@
+type RouteId {
+  oid: String
+}
+
+type RouteCoordinateId {
+  oid: String
+}
+
+type RouteUserId {
+  oid: String
+}
+
+type RouteUser {
+  name: String
+  id2: Int
+  _id: RouteUserId
+}
+
+type RouteCoordinate {
+  lat: Float
+  lng: Float
+  _id: RouteCoordinateId
+}
+
+type Route {
+  name: String
+  rating: Float
+  public: Boolean
+  done: Boolean
+  startLocationId: RouteCoordinateId
+  endLocationId: RouteCoordinateId
+  creatorId2: RouteUserId
+  memberId2s: [RouteUserId]
+  _id: RouteId
+}
+
+# Coordinate
+
+input RouteCoordinateInput {
+  lat: Float
+  lng: Float
+}
+
+input RouteCoordinateUpdateInput {
+  lat: Float
+  lng: Float
+  coordinateId: RouteCoordinateId
+}
+
+input RouteCoordinateIdInput {
+  coordinateId: RouteCoordinateId
+}
+
+# User
+
+input RouteUserInput {
+  name: String
+  id2: Int
+}
+
+input RouteUserIdInput {
+  id2: RouteUserId
+}
+
+# Route
+
+input RouteInput {
+  name: String
+  public: Boolean
+  startLocationId: RouteCoordinateId
+  endLocationId: RouteCoordinateId
+  creatorId2: RouteUserId
+}
+
+input RouteQualifyInput {
+  rating: Float
+  routeId: RouteId
+}
+
+input RouteMemberInput {
+  id2: RouteUserId
+  routeId: RouteId
+}
+
+type Query {
+  # Coordinate
+  getCoordinateById(data: RouteCoordinateIdInput): RouteCoordinate
+  # User
+  getUserById(data: RouteUserIdInput): RouteUser
+  # Route
+  getRouteById(routeId: RouteId): Route
+  getPublicRoutes: [Route]
+}
+
+type Mutation {
+  # Coordinate
+  createCoordinate(data: RouteCoordinateInput): Coordinate
+  updateCoordinate(data: RouteCoordinateIdInput): Boolean
+  deleteCoordinateById(data: RouteCoordinateIdInput): Boolean
+  # User
+  createUser(data: RouteUserInput): RouteUser
+  updateUset(data: RouteUserInput): Boolean
+  deleteUser(data: RouteUserIdInput): Boolean
+  # Route
+  createRoute(data: RouteInput): Route
+  qualifyRoute(data: RouteQualifyInput): Boolean
+  addMemberRoute(data: RouteMemberInput): Boolean
+  deleteMemberRoute(data: RouteMemberInput): Boolean
+  deleteRoute(routeId: RouteId): Boolean
+}
+
+
+##############
+
+
+type JoinRouteId {
+  oid: String
+}
+
+type JoinRouteMember {
+  id2: Int
+  name: String
+  _id: JoinRouteId
+}
+
+type JoinRouteCreator {
+  id2: Int
+  name: String
+  _id: JoinRouteId
+}
+
+type JoinRouteChatMessage {
+  content: String
+  creator: JoinRouteCreator
+  _id: JoinRouteId
+}
+
+type JoinRouteChat {
+  name: String
+  message: [JoinRouteChatMessage]
+  _id: JoinRouteId
+}
+
+type JoinRoute {
+  calification: Int
+  latitude: Float
+  longitude: Float
+  members: [JoinRouteMember]
+  creator: JoinRouteCreator
+  chat: JoinRouteChat
+  _id: JoinRouteId
+}
+
+type Query {
+  getAllJoinRoutes: [JoinRoute]
+  getJoinRouteById(id: Int!): JoinRoute
+}
+
+input JoinRouteCreatorInput {
+  name: String
+  id2: Int
+}
+
+input JoinRouteChatMessageInput {
+  content: String
+  creator: JoinRouteCreatorInput
+}
+
+input JoinRouteChatInput {
+  name: String
+  message: [JoinRouteChatMessageInput]
+}
+
+input JoinRouteMembersInput {
+  name: String
+  id2: Int
+}
+
+input JoinRouteInput {
+  calification: Int
+  latitude: Float
+  longitude: Float
+  chat: JoinRouteChatInput
+  members: [JoinRouteMembersInput]
+  creator: JoinRouteCreatorInput
+}
+
+type Mutation {
+  createJoinRoute(data: JoinRouteInput): JoinRoute
+  updateJoinRoute(id: Int, data: JoinRouteInput): JoinRoute
+  deleteJoinRoute(id: Int): Boolean
+}
