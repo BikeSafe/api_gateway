@@ -4,6 +4,10 @@ type Social{
     seguido: String
 }
 
+type Mensaje{
+    mensaje: String
+}
+
 input SocialInput{    
     seguidor: String
     seguido: String
@@ -12,10 +16,10 @@ input SocialInput{
 type Query{
     findSeguidores(seguido:String):[String]
     findSeguidos(seguidor:String):[String]
-    verifySocial(data:SocialInput):Boolean
 }
 
 type Mutation{
     createSocial(data:SocialInput):Social
-    deleteSocial(data:SocialInput):String
+    deleteSocial(data:SocialInput):Mensaje
+    verifySocial(data:SocialInput):Boolean
 }
