@@ -1,10 +1,10 @@
-const axios = require('axios');
+const axios = require("axios");
 
 const defaultHeaders = {
-  'Content-Type': '*/*',
+  "Content-Type": "application/json",
 };
 const buildUrlWithQuery = (url, query) => {
-  let queryString = '?';
+  let queryString = "?";
   if (query) {
     Object.keys(query).forEach((key) => {
       if (query[key]) {
@@ -14,10 +14,10 @@ const buildUrlWithQuery = (url, query) => {
       }
     });
   }
-  return url + (queryString.length == 1 ? '' : queryString);
+  return url + (queryString.length == 1 ? "" : queryString);
 };
 
-module.exports.get = (url, query = {}, token = '') => {
+module.exports.get = (url, query = {}, token = "") => {
   return new Promise((resolve, reject) => {
     axios
       .get(buildUrlWithQuery(url, query), {
@@ -31,8 +31,21 @@ module.exports.get = (url, query = {}, token = '') => {
       });
   });
 };
-
-module.exports.postWithQuery = (url, query = {}, data, token = '') => {
+module.exports.getGeneral = (url, query = {}, token = "") => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(buildUrlWithQuery(url, query), {
+        headers: { ...defaultHeaders, authorization: token },
+      })
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        let exception = Object.assign(error);
+        exception.query = query;
+        reject(error);
+      });
+  });
+};
+module.exports.postWithQuery = (url, query = {}, data, token = "") => {
   return new Promise((resolve, reject) => {
     axios
       .post(buildUrlWithQuery(url, query), data, {
@@ -47,8 +60,22 @@ module.exports.postWithQuery = (url, query = {}, data, token = '') => {
       });
   });
 };
+module.exports.postGeneral = (url, data, token = "") => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(url, data, {
+        headers: { ...defaultHeaders, authorization: token },
+      })
+      .then((response) => resolve(response.data))
+      .catch((error) => {
+        let exception = Object.assign(error);
+        exception.data = data;
+        reject(exception);
+      });
+  });
+};
 
-module.exports.post = (url, data, token = '') => {
+module.exports.post = (url, data, token = "") => {
   return new Promise((resolve, reject) => {
     axios
       .post(url, data, {
@@ -63,7 +90,7 @@ module.exports.post = (url, data, token = '') => {
   });
 };
 
-module.exports.put = (url, data, token = '') => {
+module.exports.put = (url, data, token = "") => {
   return new Promise((resolve, reject) => {
     axios
       .put(url, data, {
@@ -78,7 +105,7 @@ module.exports.put = (url, data, token = '') => {
   });
 };
 
-module.exports.patch = (url, data, token = '') => {
+module.exports.patch = (url, data, token = "") => {
   return new Promise((resolve, reject) => {
     axios
       .patch(url, data, {
@@ -93,7 +120,7 @@ module.exports.patch = (url, data, token = '') => {
   });
 };
 
-module.exports.deleted = (url, data, token = '') => {
+module.exports.deleted = (url, data, token = "") => {
   return new Promise((resolve, reject) => {
     axios
       .delete(url, data, {

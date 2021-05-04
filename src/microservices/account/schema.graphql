@@ -1,0 +1,52 @@
+
+type User{
+  id: Int
+  uid: String
+  firstName: String
+  lastName: String
+  age: Int
+  email: String
+  password: String
+}
+type Profile{
+  uid: String
+  firstName: String
+  lastName: String
+  age: Int
+  email: String
+}
+input LoginInput{
+  email: String
+  password: String
+}
+input UserInput{
+  firstName: String
+  lastName: String
+  age: Int
+  email: String
+  password: String
+}
+type Token{
+  accesToken: String
+}
+type Uid{
+  uid: String
+}
+type Logout{
+  ok: Boolean
+}
+type IsAuth{
+  ok: Boolean
+  uid: String
+}
+
+type Query{
+  getUsers: [User]
+  getProfile(token:String):Profile
+  isAuth(token:String):IsAuth
+}
+type Mutation{
+  login(data:LoginInput): Token
+  register(data: UserInput ): Uid
+  logout(token: String): Logout
+}
