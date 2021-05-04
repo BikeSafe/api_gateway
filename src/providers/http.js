@@ -27,7 +27,7 @@ module.exports.get = (url, query = {}, token = "") => {
       .catch((error) => {
         let exception = Object.assign(error);
         exception.query = query;
-        reject(error);
+        reject(exception);
       });
   });
 };
